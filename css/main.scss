@@ -1,5 +1,9 @@
 @import "../node_modules/ng-admin/build/ng-admin.min.css";
 
+* {
+    font-family: 'Open Sans', sans-serif;
+}
+
 .poster_mini_thumbnail {
     max-width:25px;
     max-height:25px;
@@ -9,20 +13,10 @@
     padding-top: 15px;
 }
 
-table.items > tbody > tr > td {
-    vertical-align: middle;
-}
-
-.grid .ng-admin-type-amount, .grid .ng-admin-column-total_spent {
-    text-align: right;
-    padding-right: 1em;
-}
-
-// Basket
-.form-control.delivery_fees {
-    padding-right: 0;
-}
-
 .transparent {
     color: transparent;
+}
+
+#headericon {
+    font-size: 64px;
 }
