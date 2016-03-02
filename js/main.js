@@ -1,58 +1,69 @@
-// require('ng-admin'); removed here and added back as a <script> tag to hep debugging - WebPack doesn't properly handle sourcemaps of dependencies yet
-require('./api');
-
-var myApp = angular.module('myApp', ['ng-admin']);
+var app = angular.module('app', ['ng-admin']);
 
 // custom API flavor
 var apiFlavor = require('./api_flavor');
-myApp.config(['RestangularProvider', apiFlavor.requestInterceptor]);
-myApp.config(['RestangularProvider', apiFlavor.responseInterceptor]);
+app.config(['RestangularProvider', apiFlavor.requestInterceptor]);
+app.config(['RestangularProvider', apiFlavor.responseInterceptor]);
 
-// custom 'amount' type
-myApp.config(['NgAdminConfigurationProvider', 'FieldViewConfigurationProvider', function(nga, fvp) {
-    nga.registerFieldType('amount', require('./types/AmountField'));
-    fvp.registerFieldView('amount', require('./types/AmountFieldView'));
-}]);
-
-// custom directives
-myApp.directive('approveReview', require('./reviews/approveReview'));
-myApp.directive('batchApprove', require('./reviews/batchApprove'));
-myApp.directive('starRating', require('./reviews/starRating'));
-myApp.directive('basket', require('./commands/basket'));
-myApp.directive('dashboardSummary', require('./dashboard/dashboardSummary'));
+app.config(function(RestangularProvider, $httpProvider) {
+    $httpProvider.interceptors.push(function() {
+        return {
+            request: function(config) {
+                var pattern = /\/(\d+)$/;
+                var table = /\/([a-z]+)\//;
+                var idTable = {
+                    "organism": "organism_id",
+                    "feature": "feature_id",
+                    "dbxref": "dbxref_id",
+                    "db": "db_id",
+                    "cvterm": "cvterm_id",
+                }
+                if (pattern.test(config.url)) {
+                    config.params = config.params || {};
+                    var identifierField = idTable[table.exec(config.url)[1]];
+                    config.params[identifierField] = 'eq.' + pattern.exec(config.url)[1];
+                    config.url = config.url.replace(pattern, '');
+                }
+                return config;
+            },
+        };
+    });
+});
 
 // custom controllers
-myApp.controller('username', ['$scope', '$window', function($scope, $window) { // used in header.html
+app.controller('username', ['$scope', '$window', function($scope, $window) { // used in header.html
     $scope.username =  $window.localStorage.getItem('posters_galore_login');
 }])
 
 // custom states (pages)
-myApp.config(['$stateProvider', require('./segments/segmentsState')]);
+app.config(['$stateProvider', require('./segments/segmentsState')]);
 
-myApp.config(['NgAdminConfigurationProvider', function (nga) {
+app.config(['NgAdminConfigurationProvider', function (nga) {
     // create the admin application
-    var admin = nga.application('My First Admin')
-        .baseApiUrl('/');
+    var admin = nga.application('Chado')
+        .baseApiUrl('http://localhost:8300/');
 
     // add entities
-    admin.addEntity(nga.entity('customers'));
-    admin.addEntity(nga.entity('categories'));
-    admin.addEntity(nga.entity('products'));
-    admin.addEntity(nga.entity('reviews'));
-    admin.addEntity(nga.entity('commands'));
-    admin.addEntity(nga.entity('settings'));
+    admin.addEntity(nga.entity('organism').identifier(nga.field('organism_id')));
+    admin.addEntity(nga.entity('feature').identifier(nga.field('feature_id')));
+    admin.addEntity(nga.entity('dbxref' ).identifier(nga.field('dbxref_id')));
+    admin.addEntity(nga.entity('db'     ).identifier(nga.field('db_id')));
+    admin.addEntity(nga.entity('cvterm' ).identifier(nga.field('cvterm_id')));
 
     // configure entities
-    require('./customers/config')(nga, admin);
-    require('./categories/config')(nga, admin);
-    require('./products/config')(nga, admin);
-    require('./reviews/config')(nga, admin);
-    require('./commands/config')(nga, admin);
-    require('./settings/config')(nga, admin);
+    require('./organism/config')(nga, admin);
+    require('./feature/config')(nga, admin);
+    require('./dbxref/config')(nga, admin);
+    require('./db/config')(nga, admin);
+    require('./cvterm/config')(nga, admin);
+    //require('./feature/config')(nga, admin);
+    //require('./dbxref/config')(nga, admin);
+    //require('./db/config')(nga, admin);
+    //require('./cvterm/config')(nga, admin);
 
-    admin.dashboard(require('./dashboard/config')(nga, admin));
-    admin.header(require('./header.html'));
-    admin.menu(require('./menu')(nga, admin));
+    //admin.dashboard(require('./dashboard/config')(nga, admin));
+    //admin.header(require('./header.html'));
+    //admin.menu(require('./menu')(nga, admin));
 
     // attach the admin application to the DOM and execute it
     nga.configure(admin);
