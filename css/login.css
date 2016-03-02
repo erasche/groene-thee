@@ -64,7 +64,7 @@ body{
 	color:#676767;
 	font-family: 'Open Sans', sans-serif;
 	font-weight:400;
-	padding-top: 19%;
+	padding-top: 1em;
 	text-align: center;
 }
 .main form {
@@ -169,7 +169,7 @@ input[type="submit"]:hover{
 	margin: 11% auto 4% auto;
 	}
 	.main h1 {
-	padding-top: 23%;
+	padding-top: 1em;
 	}
 	.copy-right {
 	bottom: -26%;
@@ -195,7 +195,6 @@ input[type="submit"]:hover{
 .login-form  {
 		margin:12% auto 0;
 		width:45%;
-        m
 	}
 	.copy-right {
 	left: 41%;
@@ -253,7 +252,7 @@ input[type="submit"]:hover{
 
 	}
 	.main h1 {
-	padding-top: 20%;
+	padding-top: 1em;
 	font-size: 20px;
 	}
 	.head img {
