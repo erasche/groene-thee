@@ -35,9 +35,6 @@ app.controller('username', ['$scope', '$window', function($scope, $window) { // 
     $scope.username =  $window.localStorage.getItem('posters_galore_login');
 }])
 
-// custom states (pages)
-app.config(['$stateProvider', require('./segments/segmentsState')]);
-
 app.config(['NgAdminConfigurationProvider', function (nga) {
     // create the admin application
     var admin = nga.application('Chado')
@@ -62,7 +59,7 @@ app.config(['NgAdminConfigurationProvider', function (nga) {
     //require('./cvterm/config')(nga, admin);
 
     //admin.dashboard(require('./dashboard/config')(nga, admin));
-    //admin.header(require('./header.html'));
+    admin.header(require('./header.html'));
     //admin.menu(require('./menu')(nga, admin));
 
     // attach the admin application to the DOM and execute it

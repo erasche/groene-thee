@@ -1,6 +1,6 @@
 export default function (nga, admin) {
     var organism = admin.getEntity('organism');
-    var org_fields = [
+    var fields = [
         nga.field('abbreviation').isDetailLink(true),
         nga.field('genus'),
         nga.field('species'),
@@ -9,14 +9,14 @@ export default function (nga, admin) {
     ];
 
     organism.listView()
-        .fields(org_fields)
+        .fields(fields)
         .listActions(['edit', 'show']);
 
     organism.editionView()
-        .fields(org_fields);
+        .fields(fields);
 
     organism.creationView()
-        .fields(org_fields);
+        .fields(fields);
 
     return organism;
 }
