@@ -32,7 +32,7 @@ app.config(function(RestangularProvider, $httpProvider) {
 
 // custom controllers
 app.controller('username', ['$scope', '$window', function($scope, $window) { // used in header.html
-    $scope.username =  $window.localStorage.getItem('posters_galore_login');
+    $scope.username =  $window.localStorage.getItem('chado_login');
 }])
 
 app.config(['NgAdminConfigurationProvider', function (nga) {

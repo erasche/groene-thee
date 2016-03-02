@@ -21,16 +21,13 @@ License URL: http://creativecommons.org/licenses/by/3.0/
      <div class="main">
         <div class="login-form">
             <h1>Chado Admin Login</h1>
-            <div class="head">
-                <img src="images/user.png" alt=""/>
-            </div>
             <form onsubmit="return login()">
                 <input type="text" class="text" id="username" value="Username" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Username';}" >
                 <input type="password" value="Password" id="password" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Password';}">
                 <div class="submit">
                     <input type="submit" value="Log In" >
                 </div>
-                <p><a href="#">Hint: Jane / Password</a></p>
+                <p><a href="#">Hint: Username / Password</a></p>
             </form>
         </div>
          <!-- start-copyright -->
@@ -40,15 +37,11 @@ License URL: http://creativecommons.org/licenses/by/3.0/
         <!-- end-copyright -->
     </div>
     <script type="application/x-javascript">
-    window.addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
-    function hideURLbar(){
-        window.scrollTo(0,1);
-    }
     function login(e) {
         if (e) {
             e.prevenDefault();
         }
-        window.localStorage.setItem('posters_galore_login', document.getElementById('username').value);
+        window.localStorage.setItem('chado_login', document.getElementById('username').value);
         window.location.href = "./index.html";
         return false;
     }
