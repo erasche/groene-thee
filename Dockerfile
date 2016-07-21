@@ -1,11 +1,13 @@
 FROM node:4
+
+RUN apt-get update -qq && \
+    apt-get install -y nginx
+EXPOSE 80
+
 ADD . /app
 WORKDIR /app
-EXPOSE 80
 RUN make install && \
     npm rebuild node-sass && \
-    apt-get update -qq && \
-    apt-get install -y nginx && \
     make build && \
     cp *.html /var/www/html && \
     cp -Rv css /var/www/html/ && \
