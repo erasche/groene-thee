@@ -14,4 +14,4 @@ run: copy-ng-admin
 	@echo "**************************************************"
 	@echo "* open http://localhost:8080/webpack-dev-server/ *"
 	@echo "**************************************************"
-	./node_modules/.bin/webpack-dev-server --progress --colors --devtool cheap-module-inline-source-map --hot --inline
+	./node_modules/.bin/webpack-dev-server --progress --colors --devtool cheap-module-inline-source-map --hot --inline --host 0.0.0.0
