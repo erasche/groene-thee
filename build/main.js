@@ -94,8 +94,7 @@
 	
 	app.config(['NgAdminConfigurationProvider', function (nga) {
 	    // create the admin application
-	    var admin = nga.application('Chado').baseApiUrl('https://erasche.github.io/chado-angular-admin/postgrest/');
-	    //.baseApiUrl('http://localhost:8200/postgrest/');
+	    var admin = nga.application('Chado').baseApiUrl('/postgrest/');
 	
 	    // add entities
 	    admin.addEntity(nga.entity('organism').identifier(nga.field('organism_id')));
