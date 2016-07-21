@@ -9,8 +9,7 @@ app.config(function(RestangularProvider, $httpProvider) {
     $httpProvider.interceptors.push(function() {
         return {
             request: function(config) {
-                var pattern = /\/(\d+)$/;
-                var table = /\/([a-z]+)\//;
+                var pattern = /([a-z_-]+)\/(\d+)$/;
                 var idTable = {
                     "organism": "organism_id",
                     "feature": "feature_id",
@@ -20,9 +19,10 @@ app.config(function(RestangularProvider, $httpProvider) {
                 }
                 if (pattern.test(config.url)) {
                     config.params = config.params || {};
-                    var identifierField = idTable[table.exec(config.url)[1]];
-                    config.params[identifierField] = 'eq.' + pattern.exec(config.url)[1];
-                    config.url = config.url.replace(pattern, '');
+                    var match = pattern.exec(config.url);
+                    var identifierField = idTable[match[1]];
+                    config.params[identifierField] = 'eq.' + match[2];
+                    config.url = config.url.replace(pattern, match[1]);
                 }
                 return config;
             },
@@ -38,7 +38,8 @@ app.controller('username', ['$scope', '$window', function($scope, $window) { // 
 app.config(['NgAdminConfigurationProvider', function (nga) {
     // create the admin application
     var admin = nga.application('Chado')
-        .baseApiUrl('/postgrest/');
+        .baseApiUrl('http://localhost:8200/postgrest/');
+        //.baseApiUrl('/postgrest/');
 
     // add entities
     admin.addEntity(nga.entity('organism').identifier(nga.field('organism_id')));
