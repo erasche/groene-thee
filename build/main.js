@@ -94,7 +94,7 @@
 	
 	app.config(['NgAdminConfigurationProvider', function (nga) {
 	    // create the admin application
-	    var admin = nga.application('Chado').baseApiUrl('http://shed.hx42.org:8300/');
+	    var admin = nga.application('Chado').baseApiUrl('http://localhost:8300/');
 	
 	    // add entities
 	    admin.addEntity(nga.entity('organism').identifier(nga.field('organism_id')));
