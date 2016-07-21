@@ -94,8 +94,8 @@
 	
 	app.config(['NgAdminConfigurationProvider', function (nga) {
 	    // create the admin application
-	    var admin = nga.application('Chado').baseApiUrl('http://localhost:8200/postgrest/');
-	    //.baseApiUrl('/postgrest/');
+	    var admin = nga.application('Chado').baseApiUrl('https://erasche.github.io/chado-angular-admin/postgrest/');
+	    //.baseApiUrl('http://localhost:8200/postgrest/');
 	
 	    // add entities
 	    admin.addEntity(nga.entity('organism').identifier(nga.field('organism_id')));
@@ -160,7 +160,7 @@
 	            case 'get':
 	                return data[0];
 	            case 'getList':
-	                response.totalCount = response.headers('Content-Range').split('/')[1];
+	                response.totalCount = response.headers('Content-Range') ? response.headers('Content-Range').split('/')[1] : '1';
 	                break;
 	        }
 	
