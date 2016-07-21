@@ -160,7 +160,7 @@
 	            case 'get':
 	                return data[0];
 	            case 'getList':
-	                response.totalCount = response.headers('Content-Range').split('/')[1];
+	                response.totalCount = response.headers('Content-Range') ? response.headers('Content-Range').split('/')[1] : '1';
 	                break;
 	        }
 	
