@@ -38,8 +38,8 @@ app.controller('username', ['$scope', '$window', function($scope, $window) { // 
 app.config(['NgAdminConfigurationProvider', function (nga) {
     // create the admin application
     var admin = nga.application('Chado')
-        .baseApiUrl('http://localhost:8200/postgrest/');
-        //.baseApiUrl('/postgrest/');
+        .baseApiUrl('https://erasche.github.io/chado-angular-admin/postgrest/');
+        //.baseApiUrl('http://localhost:8200/postgrest/');
 
     // add entities
     admin.addEntity(nga.entity('organism').identifier(nga.field('organism_id')));
