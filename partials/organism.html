@@ -1,0 +1,24 @@
+<md-table-container>
+    <table md-table>
+        <thead md-head>
+            <tr md-row>
+                <th md-column><span>Lineage</span></th>
+                <th md-column><span>Abbreviation</span></th>
+                <th md-column><span>Common name</span></th>
+                <th md-column><span>Comment</span></th>
+            </tr>
+        </thead>
+        <tbody md-body>
+            <tr md-row ng-repeat="row in data">
+                <td md-cell>
+                    <a href="#/organism/{{row.organism_id}}">
+                        <i>{{row.genus}} {{row.species}}</i>
+                    </a>
+                </td>
+                <td md-cell>{{row.abbreviation}}</td>
+                <td md-cell>{{row.common_name}}</td>
+                <td md-cell>{{row.comment}}</td>
+            </tr>
+        </tbody>
+    </table>
+</md-table-container>

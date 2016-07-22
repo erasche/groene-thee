@@ -1,24 +1,10 @@
-@import "../node_modules/ng-admin/build/ng-admin.min.css";
-@import "login.css";
 @import "ebi-visual.css";
+@import "../node_modules/angular-material/angular-material.css";
+@import "../node_modules/angular-material-data-table/dist/md-data-table.css";
 
 * {
     font-family: 'Open Sans', sans-serif;
 }
 
-.poster_mini_thumbnail {
-    max-width:25px;
-    max-height:25px;
-}
-
-.navbar-right > li > a {
-    padding-top: 15px;
-}
-
-.transparent {
-    color: transparent;
-}
-
-#headericon {
-    font-size: 64px;
+body {
 }

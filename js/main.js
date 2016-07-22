@@ -1,67 +1,52 @@
-var app = angular.module('app', ['ng-admin']);
+window._ = require('underscore');
+require('angular');
+require('angular-route');
+require('restangular');
+require('angular-resource');
+require('angular-material');
+require('angular-material-icons');
+require('angular-aria');
+//require('angular-gravatar');
+require('angular-material-data-table');
+require('angular-messages');
+require('angular-animate');
+
+var app = angular.module('app', [
+    'ngRoute',
+    'restangular',
+    'ngMaterial',
+    'ngMdIcons',
+    //'ui.gravatar',
+    'ngMessages',
+    'ngAnimate',
+    'md.data.table'
+]);
 
 // custom API flavor
 var apiFlavor = require('./api_flavor');
+var instanceConfig = require('../app.config');
+
 app.config(['RestangularProvider', apiFlavor.requestInterceptor]);
 app.config(['RestangularProvider', apiFlavor.responseInterceptor]);
-
-app.config(function(RestangularProvider, $httpProvider) {
-    $httpProvider.interceptors.push(function() {
-        return {
-            request: function(config) {
-                var pattern = /([a-z_-]+)\/(\d+)$/;
-                var idTable = {
-                    "organism": "organism_id",
-                    "feature": "feature_id",
-                    "dbxref": "dbxref_id",
-                    "db": "db_id",
-                    "cvterm": "cvterm_id",
-                }
-                if (pattern.test(config.url)) {
-                    config.params = config.params || {};
-                    var match = pattern.exec(config.url);
-                    var identifierField = idTable[match[1]];
-                    config.params[identifierField] = 'eq.' + match[2];
-                    config.url = config.url.replace(pattern, match[1]);
-                }
-                return config;
-            },
-        };
+app.factory('ChadoBackend', function(Restangular) {
+    return Restangular.withConfig(function(RestangularConfigurer) {
+        RestangularConfigurer.setBaseUrl(instanceConfig.postgrest.chado);
+    });
+}).factory('TripalBackend', function(Restangular) {
+    return Restangular.withConfig(function(RestangularConfigurer) {
+        RestangularConfigurer.setBaseUrl(instanceConfig.postgrest.tripal);
     });
 });
 
-// custom controllers
-app.controller('username', ['$scope', '$window', function($scope, $window) { // used in header.html
-    $scope.username =  $window.localStorage.getItem('chado_login');
-}])
 
-app.config(['NgAdminConfigurationProvider', function (nga) {
-    // create the admin application
-    var admin = nga.application('Chado')
-        .baseApiUrl('/postgrest/');
+app.config(function($httpProvider, $mdThemingProvider, $routeProvider) {
+    $mdThemingProvider.theme('default')
+        .primaryPalette('light-green')
+        .accentPalette('grey');
 
-    // add entities
-    admin.addEntity(nga.entity('organism').identifier(nga.field('organism_id')));
-    admin.addEntity(nga.entity('feature').identifier(nga.field('feature_id')));
-    admin.addEntity(nga.entity('dbxref' ).identifier(nga.field('dbxref_id')));
-    admin.addEntity(nga.entity('db'     ).identifier(nga.field('db_id')));
-    admin.addEntity(nga.entity('cvterm' ).identifier(nga.field('cvterm_id')));
+    require('./routes/home/config')($routeProvider);
+    require('./routes/organism/config')($routeProvider);
+});
 
-    // configure entities
-    require('./organism/config')(nga, admin);
-    require('./feature/config')(nga, admin);
-    require('./dbxref/config')(nga, admin);
-    require('./db/config')(nga, admin);
-    require('./cvterm/config')(nga, admin);
-    //require('./feature/config')(nga, admin);
-    //require('./dbxref/config')(nga, admin);
-    //require('./db/config')(nga, admin);
-    //require('./cvterm/config')(nga, admin);
-
-    //admin.dashboard(require('./dashboard/config')(nga, admin));
-    admin.header(require('./header.html'));
-    //admin.menu(require('./menu')(nga, admin));
-
-    // attach the admin application to the DOM and execute it
-    nga.configure(admin);
-}]);
+require('./routes/home/controller')(app, instanceConfig);
+require('./routes/organism/controller')(app, instanceConfig);

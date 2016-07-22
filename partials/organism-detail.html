@@ -1,0 +1,70 @@
+<div layout="row">
+    <div class="col" flex="30">
+        <md-card>
+            <md-card-title>
+                <md-card-title-text>
+                    <span class="md-headline">
+                        <i>{{data.genus}} {{data.species}}</i> ({{ data.common_name }})</span>
+                </md-card-title-text>
+                <md-card-title-media>
+                    <div class="md-media-lg card-media">
+                        <img src="http://demo.tripal.info/2.x/sites/default/files/tripal/tripal_organism/images/3602.jpg" />
+                    </div>
+                </md-card-title-media>
+            </md-card-title>
+            <md-card-content>
+                <p ng-show="data.comment">
+                    {{ data.comment }}
+                </p>
+                <p>
+                    The data used for rice on this demo site has been taken
+                    from <a href="http://www.gramene.org/">Gramene</a>. The
+                    data here is intended only for demonstration of the
+                    functionality of Tripal and is not meant to be a resource
+                    for rice genetics or genomics.
+                </p>
+            </md-card-content>
+        </md-card>
+    </div>
+    <div class="col" flex="70">
+        <md-card>
+            <md-tabs md-dynamic-height md-border-bottom>
+                <md-tab label="Features">
+                    <md-content class="md-padding">
+                        <md-table-container>
+                            <table md-table>
+                                <thead md-head>
+                                    <tr md-row>
+                                        <th md-column><span>Unique Name</span></th>
+                                        <th md-column><span>Name</span></th>
+                                        <th md-column><span>Type</span></th>
+                                        <th md-column><span>Sequence Length</span></th>
+                                        <th md-column><span>Is Obsolete</span></th>
+                                        <th md-column><span>Last Modified</span></th>
+                                    </tr>
+                                </thead>
+                                <tbody md-body>
+                                    <tr md-row ng-repeat="row in features">
+                                        <td md-cell>{{row.unique_name}}</td>
+                                        <td md-cell>{{row.name}}</td>
+                                        <td md-cell>{{row.type_id}}</td>
+                                        <td md-cell>{{row.seqlen}}</td>
+                                        <td md-cell>{{row.is_obsolete}}</td>
+                                        <td md-cell>{{row.timelastmodified}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </md-table-container>
+                    </md-content>
+                </md-tab>
+                <md-tab label="JBrowse">
+                    <md-content class="md-padding">
+                        {{url}}
+                        <iframe width="100%" height="700px" ng-src="{{url}}">
+                    </md-content>
+                </md-tab>
+            </md-tabs>
+        </md-card>
+
+    </div>
+</div>

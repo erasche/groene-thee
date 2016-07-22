@@ -1,25 +1,25 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="app">
     <head>
-        <title>Chado Administration</title>
+        <title>Groene Thee</title>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" type="text/css" href="build/main.css"/>
         <link rel="stylesheet" type="text/css" href="css/ebi-visual.css"/>
     </head>
-    <body ng-app="app">
-        <div ui-view></div>
-        <script type="text/javascript">
-        var username = window.localStorage.getItem('chado_login');
-        if (!username) {
-            window.location.href = "./login.html";
-        }
-        function logout() {
-            window.localStorage.removeItem('chado_login');
-            window.location.href = "./login.html";
-        }
-        </script>
-        <script type="text/javascript" src="build/ng-admin.min.js" charset="utf-8"></script>
+    <body>
+        <div layout="column">
+            <md-toolbar>
+                <div class="md-toolbar-tools">
+                    <h2>
+                        <span class="md-title"><a href="#/">Chado</a></span>
+                    </h2>
+                </div>
+            </md-toolbar>
+            <div class="view-container">
+                <div ng-view class="view-frame"></div>
+            </div>
+        </div>
         <script type="text/javascript" src="build/main.js" charset="utf-8"></script>
     </body>
 </html>
