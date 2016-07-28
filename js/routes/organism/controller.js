@@ -9,10 +9,12 @@ export default function(app, config, ChadoBackend){
             $scope.data  = data[0];
 
             $scope.jbrowseDataUrl = config.jbrowse.api + "/link/" + data[0].common_name;
-
-            $scope.url = $sce.trustAsResourceUrl("http://jbrowse.org/code/JBrowse-1.12.0/?data=" + encodeURIComponent($scope.jbrowseDataUrl));
+            $scope.jbrowseServer = config.jbrowse.server;
+            $scope.url = $sce.trustAsResourceUrl(config.jbrowse.server + "/?data=" + encodeURIComponent($scope.jbrowseDataUrl));
+            //
             // Ensure parent loads first.
-            ChadoBackend.all('feature').getList({organism_id: 'eq.' + $routeParams.id}).then(function(data2) {
+            ChadoBackend.all('').customGETLIST('feature?organism_id=eq.' + $routeParams.id + '&select=*,dbxref:type_id{*},featureloc:feature_id{*}').then(function(data2) {
+                console.log(data2);
                 $scope.features  = data2;
             });
         });
